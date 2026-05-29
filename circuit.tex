@@ -1,0 +1,38 @@
+% ============================================================
+%  NOT gate - transistor-level realization
+%  A single common-emitter NPN stage.
+%    Input 1 -> transistor ON  -> output pulled to GROUND (0)
+%    Input 0 -> transistor OFF -> output pulled to +5 V   (1)
+%  Compile:  pdflatex circuit.tex
+% ============================================================
+\documentclass[border=12pt]{standalone}
+\usepackage{circuitikz}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{circuitikz}[american, line width=0.7pt]
+
+  % ---------- Supply rail (+5 V) ----------
+  \draw (-0.5,5) -- (6,5);
+  \node[anchor=south] at (2.75,5.05) {\textbf{$V_{CC} = +5\,\mathrm{V}$}};
+  \fill (2.5,5) circle (1.6pt);
+
+  % ---------- transistor ----------
+  \node[npn] (q) at (2.5,2) {};
+  \node[anchor=west] at ($(q.E)+(0.45,0.15)$) {Q1};
+
+  % input + base resistor
+  \draw (-1.7,2) node[ocirc]{} node[left]{Input $A$}
+        to[R, l={$R_B=10\,\mathrm{k}\Omega$}] (q.B);
+
+  % emitter -> ground
+  \draw (q.E) -- ++(0,-1.1) node[ground]{};
+
+  % collector pull-up to the rail
+  \draw (q.C) to[R, l_={$R_C=1\,\mathrm{k}\Omega$}] (2.5,5);
+
+  % output at the collector
+  \draw (q.C) -- ++(2.7,0) node[ocirc]{} node[right]{Output $Y=\overline{A}$};
+
+\end{circuitikz}
+\end{document}

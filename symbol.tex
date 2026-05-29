@@ -1,0 +1,11 @@
+% NOT gate - standard ANSI/IEEE distinctive-shape symbol.
+% A triangle with a small bubble on the output (the bubble = inversion).
+\documentclass[border=12pt]{standalone}
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}[line width=0.8pt, scale=1.4, transform shape]
+  \node[not port] (g) {};
+  \draw (g.in)  -- ++(-1,0) node[ocirc]{} node[left]{Input $A$};
+  \draw (g.out) -- ++(1,0)  node[ocirc]{} node[right]{Output $Y=\overline{A}$};
+\end{circuitikz}
+\end{document}
