@@ -48,7 +48,7 @@ How it works:
   **pulled up to +5 V** → output `1`.
 
 That is exactly the inverting behaviour `Y = Ā`. (Two of these stages in series make a
-[buffer](../buffer).)
+[buffer](https://github.com/mrmhmdalmalki/buffer-gate).)
 
 ---
 
