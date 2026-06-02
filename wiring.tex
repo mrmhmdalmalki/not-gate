@@ -1,0 +1,47 @@
+% ============================================================
+%  NOT gate - physical wiring diagram.
+%  The transistor is drawn as the REAL 2N3904 package: flat face
+%  toward you, legs pointing DOWN, in physical order E B C.
+%  This is the SAME circuit as circuit.tex, just laid out the way
+%  the part actually sits, so each leg maps to where its wire goes.
+%  Compile:  pdflatex wiring.tex
+% ============================================================
+\documentclass[border=12pt]{standalone}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\begin{document}
+\begin{tikzpicture}[line width=1pt, font=\sffamily]
+  \ctikzset{tripoles/thickness=1, bipoles/thickness=1}
+
+  % ---------- 2N3904 package (legs down, E B C) ----------
+  \def\w{0.95}
+  \draw[fill=black!10]
+        (-\w,4.2) -- (-\w,5.2) arc (180:0:\w) -- (\w,4.2) -- cycle;
+  \node at (0,4.6) {\small\textbf{2N3904}};
+
+  % legs + pin names
+  \foreach \x in {-0.6,0,0.6}{ \draw (\x,4.2) -- (\x,3.5); }
+  \node[red,font=\bfseries\small,left=1pt]  at (-0.6,3.85) {E};
+  \node[red,font=\bfseries\small,right=1pt] at ( 0.0,3.85) {B};
+  \node[red,font=\bfseries\small,right=1pt] at ( 0.6,3.85) {C};
+
+  % ---------- Emitter -> GND ----------
+  \draw (-0.6,3.5) -- (-0.6,1.0) node[ground, scale=1.4]{};
+  \node[align=center,font=\footnotesize] at (-2.1,1.6)
+        {Emitter\\ $\rightarrow$ GND (0 V)};
+
+  % ---------- Base -> Rb -> Input ----------
+  \draw (0,3.5) -- (0,3.1) to[R, l={$R_B=10\,\mathrm{k}\Omega$}] (0,1.3)
+        -- (0,0.7) node[ocirc]{} node[right]{\,Input $A$};
+
+  % ---------- Collector -> Rc -> +5V, and Output ----------
+  \draw (0.6,3.5) -- (0.6,2.6) -- (4.2,2.6)
+        node[ocirc]{} node[right]{Output $Y=\overline{A}$};
+  \fill (2.4,2.6) circle (1.6pt);
+  \draw (2.4,2.6) to[R, l_={$R_C=1\,\mathrm{k}\Omega$}] (2.4,4.9)
+        -- (2.4,5.2) node[above]{$+5\,\mathrm{V}$ (Vcc)};
+
+\end{tikzpicture}
+\end{document}

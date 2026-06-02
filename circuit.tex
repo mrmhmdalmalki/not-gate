@@ -19,7 +19,11 @@
 
   % ---------- transistor ----------
   \node[npn] (q) at (2.5,2) {};
-  \node[anchor=west] at ($(q.E)+(0.45,0.15)$) {Q1};
+  \node[anchor=west] at ($(q.E)+(0.45,0.15)$) {Q1 (2N3904)};
+  % pin-name labels (match the physical 2N3904 legs)
+  \node[red, font=\bfseries\small, anchor=south west] at ($(q.C)+(0.03,0.05)$) {C};
+  \node[red, font=\bfseries\small, anchor=south east] at ($(q.B)+(-0.02,0.04)$) {B};
+  \node[red, font=\bfseries\small, anchor=north west] at ($(q.E)+(0.05,-0.05)$) {E};
 
   % input + base resistor
   \draw (-1.7,2) node[ocirc]{} node[left]{Input $A$}

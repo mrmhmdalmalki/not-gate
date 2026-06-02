@@ -52,6 +52,37 @@ That is exactly the inverting behaviour `Y = Ā`. (Two of these stages in series
 
 ---
 
+## Building it on a breadboard
+
+The schematic shows the *electrical* layout (Vcc on top, ground on the bottom, by
+convention). On a real breadboard, `+5 V` and `GND` are just **rails**: it does not matter
+whether the +5 V rail is along the top or the bottom of the board. `+5 V` and `GND` are
+**nodes** (named connections), not physical positions. That is why a build that takes +5 V
+from the bottom rail still works exactly the same.
+
+What you *do* have to get right is **which leg of the transistor is which**. For the 2N3904,
+hold it with the **flat face toward you and the legs pointing down**; the legs are then
+**E, B, C** from left to right:
+
+<img src="images/pinout.png" width="300">
+
+Now connect each leg as below. This is the same circuit as the schematic, just drawn the way
+the part actually sits in front of you:
+
+<img src="images/wiring.png" width="560">
+
+| 2N3904 leg (flat face toward you) | Connect it to |
+|:----------------------------------|:--------------|
+| **E** (Emitter, left)    | **GND** (0 V) |
+| **B** (Base, middle)     | through **R_B (10 kΩ)** to the **Input** |
+| **C** (Collector, right) | through **R_C (1 kΩ)** to **+5 V**; this same node is the **Output** |
+
+Quick test once wired: Input tied to **+5 V** should give Output near **0 V**; Input tied to
+**GND** should give Output near **+5 V**. If it is reversed or stuck, the most common cause is
+the transistor legs being in the wrong holes, so re-check E/B/C against the pinout above.
+
+---
+
 ## Components
 
 ### Transistor: 2N3904  (×1: Q1)
