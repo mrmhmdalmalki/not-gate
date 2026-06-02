@@ -9,7 +9,7 @@
 \usetikzlibrary{calc}
 
 \begin{document}
-\begin{tikzpicture}[line width=1pt, font=\sffamily]
+\begin{tikzpicture}[line width=0.8pt, font=\sffamily]
 
   \def\w{2.0}   % body half-width
   \def\h{1.5}   % body straight-side height
@@ -22,7 +22,7 @@
 
   % ---- legs ----
   \foreach \x/\lab/\full in {-1.2/E/Emitter, 0/B/Base, 1.2/C/Collector}{
-     \draw[line width=1.6pt] (\x,0) -- (\x,-1.8);
+     \draw[line width=0.8pt] (\x,0) -- (\x,-1.8);
      \node[below] at (\x,-1.85) {\textbf{\large \lab}};
      \node[below] at (\x,-2.5) {\footnotesize \full};
   }

@@ -9,8 +9,17 @@
 \usepackage{circuitikz}
 \usepackage{amsmath}
 
+% ground symbol (pic): same stroke as everything, just extra gap between bars
+\tikzset{gnd/.pic={
+  \draw
+    (0,0) -- (0,-0.18)
+    (-0.34,-0.18) -- (0.34,-0.18)
+    (-0.21,-0.37) -- (0.21,-0.37)
+    (-0.08,-0.56) -- (0.08,-0.56);
+}}
 \begin{document}
-\begin{circuitikz}[american, line width=0.7pt]
+\begin{circuitikz}[american, line width=0.8pt]
+  \ctikzset{tripoles/thickness=1, bipoles/thickness=1, logic ports/thickness=1}
 
   % ---------- Supply rail (+5 V) ----------
   \draw (-0.5,5) -- (6,5);
@@ -30,7 +39,7 @@
         to[R, l={$R_B=10\,\mathrm{k}\Omega$}] (q.B);
 
   % emitter -> ground
-  \draw (q.E) -- ++(0,-1.1) node[ground]{};
+  \draw (q.E) -- ++(0,-1.1) pic{gnd};
 
   % collector pull-up to the rail
   \draw (q.C) to[R, l_={$R_C=1\,\mathrm{k}\Omega$}] (2.5,5);

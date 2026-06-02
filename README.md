@@ -7,7 +7,7 @@ active logic gate, and the building block for every other gate.
 
 A triangle with a small **bubble** on the output. The bubble always means *inversion*.
 
-<img src="images/symbol.png" width="380">
+<img src="images/symbol.png" width="460">
 
 ### Truth table
 
@@ -38,7 +38,7 @@ state called **floating**, which we always avoid.
 A single **common-emitter NPN stage**: emitter to ground, collector pulled up to `+5 V`
 through a resistor, output taken at the collector.
 
-<img src="images/circuit.png" width="620">
+<img src="images/circuit.png" width="900">
 
 How it works:
 
@@ -64,12 +64,12 @@ What you *do* have to get right is **which leg of the transistor is which**. For
 hold it with the **flat face toward you and the legs pointing down**; the legs are then
 **E, B, C** from left to right:
 
-<img src="images/pinout.png" width="300">
+<img src="images/pinout.png" width="360">
 
 Now connect each leg as below. This is the same circuit as the schematic, just drawn the way
 the part actually sits in front of you:
 
-<img src="images/wiring.png" width="560">
+<img src="images/wiring.png" width="900">
 
 | 2N3904 leg (flat face toward you) | Connect it to |
 |:----------------------------------|:--------------|

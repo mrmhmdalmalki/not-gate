@@ -11,8 +11,16 @@
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
+% ground symbol (pic): same stroke as everything, just extra gap between bars
+\tikzset{gnd/.pic={
+  \draw
+    (0,0) -- (0,-0.18)
+    (-0.34,-0.18) -- (0.34,-0.18)
+    (-0.21,-0.37) -- (0.21,-0.37)
+    (-0.08,-0.56) -- (0.08,-0.56);
+}}
 \begin{document}
-\begin{tikzpicture}[line width=1pt, font=\sffamily]
+\begin{tikzpicture}[line width=0.8pt, font=\sffamily]
   \ctikzset{tripoles/thickness=1, bipoles/thickness=1}
 
   % ---------- 2N3904 package (legs down, E B C) ----------
@@ -28,7 +36,7 @@
   \node[red,font=\bfseries\small,right=1pt] at ( 0.6,3.85) {C};
 
   % ---------- Emitter -> GND ----------
-  \draw (-0.6,3.5) -- (-0.6,1.0) node[ground, scale=1.4]{};
+  \draw (-0.6,3.5) -- (-0.6,1.0) pic{gnd};
   \node[align=center,font=\footnotesize] at (-2.1,1.6)
         {Emitter\\ $\rightarrow$ GND (0 V)};
 
