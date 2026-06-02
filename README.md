@@ -120,13 +120,13 @@ the transistor legs being in the wrong holes, so re-check E/B/C against the pino
 - Free explainer: Texas Instruments, *Overview of IEEE Standard 91-1984* (PDF) ([ti.com](https://www.ti.com/lit/ml/sdyz001a/sdyz001a.pdf)).
 - Symbols and truth tables overview: *Logic gate*, Wikipedia ([wikipedia.org](https://en.wikipedia.org/wiki/Logic_gate)).
 
-**Transistor circuit.** This NOT gate is a single common-emitter RTL inverter: an input base resistor driving the base, and a collector pull-up resistor to +5 V. It follows standard transistor switch logic / RTL:
+**Transistor circuit.** This NOT gate is a single common-emitter RTL stage: an input base resistor driving the base, and a collector pull-up resistor to +5 V. It follows standard transistor switch logic / RTL:
 
 - *Resistor-Transistor Logic (RTL)*, Wikipedia ([wikipedia.org](https://en.wikipedia.org/wiki/Resistor%E2%80%93transistor_logic)).
 - *NOR and NAND gates using transistor*, TheoryCircuit ([theorycircuit.com](https://theorycircuit.com/digital-electronics/nor-and-nand-gates-using-transistor/)).
 - *Logic Gates using Transistors*, Electronics Tutorials ([electronics-tutorials.ws](https://www.electronics-tutorials.ws/logic/logic-gates-using-transistors.html)).
 - P. Horowitz and W. Hill, *The Art of Electronics*, 3rd ed., Cambridge University Press, 2015 (the BJT used as a switch).
-- A. S. Sedra and K. C. Smith, *Microelectronic Circuits*, Oxford University Press (BJT switch and the logic inverter).
+- A. S. Sedra and K. C. Smith, *Microelectronic Circuits*, Oxford University Press (BJT switch and the logic NOT gate).
 - T. L. Floyd, *Digital Fundamentals*, Pearson (logic-gate symbols and truth tables).
 
 **Transistor part.** 2N3904 NPN, onsemi datasheet ([PDF](https://www.onsemi.com/pdf/datasheet/2n3904-d.pdf)), product page ([onsemi.com](https://www.onsemi.com/products/discrete-power-modules/general-purpose-and-low-vcesat-transistors/2n3904)).
