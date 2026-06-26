@@ -1,25 +1,31 @@
 % ============================================================
-%  NOT gate - transistor-level schematic (PUSH-PULL output)
-%  NPN-only totem pole, all 2N3904:
-%    Q1 = inverter  -> its collector = A-bar (pulled up by R_C1)
-%    Q2 = top pull-up (emitter follower), base driven by A-bar
-%    Q3 = bottom pull-down, base driven by A
-%  Output is ACTIVELY driven both ways:
-%    HIGH ~4 V (sourced through Q2) or LOW ~0.2 V (sunk through Q3).
-%  Q2 collector goes straight to +5 V (no resistor on the output).
-%  Input and output each carry an indicator LED.
+%  NOT gate - transistor-level schematic (COMPLEMENTARY output)
+%  The BJT version of a CMOS inverter, 2 transistors:
+%    Q2 = 2N3906 (PNP)  : emitter -> +5 V, collector -> output
+%    Q1 = 2N3904 (NPN)  : emitter -> GND,  collector -> output
+%  Both bases driven from the input through SEPARATE base resistors
+%  (R_B2 for the PNP, R_B1 for the NPN) so only one turns on at a time.
+%    Input LOW  -> PNP on,  NPN off -> output ~4.8 V  (HIGH)
+%    Input HIGH -> PNP off, NPN on  -> output ~0.2 V  (LOW)
+%  Input and output each carry an indicator LED (220 ohm).
 %  Compile:  pdflatex circuit.tex
 % ============================================================
-\documentclass[border=14pt]{standalone}
+\documentclass[border=16pt]{standalone}
 \usepackage{circuitikz}
 \usepackage{amsmath}
 \usetikzlibrary{calc}
 
-% red C/B/E pin labels (match the physical 2N3904 legs)
-\newcommand{\pinlabels}[1]{%
-  \node[red,font=\bfseries\footnotesize,anchor=south west] at ($(#1.C)+(0.03,0.06)$){C};
-  \node[red,font=\bfseries\footnotesize,anchor=south east] at ($(#1.B)+(-0.03,0.06)$){B};
-  \node[red,font=\bfseries\footnotesize,anchor=north west] at ($(#1.E)+(0.06,-0.06)$){E};
+% red pin labels for the NPN (C top, B left, E bottom)
+\newcommand{\pinlabelsN}[1]{%
+  \node[red,font=\bfseries\footnotesize,anchor=south west] at ($(#1.C)+(0.05,0.06)$){C};
+  \node[red,font=\bfseries\footnotesize,anchor=south east] at ($(#1.B)+(-0.05,0.08)$){B};
+  \node[red,font=\bfseries\footnotesize,anchor=north west] at ($(#1.E)+(0.08,-0.06)$){E};
+}
+% red pin labels for the PNP (drawn flipped: E top, B left, C bottom)
+\newcommand{\pinlabelsP}[1]{%
+  \node[red,font=\bfseries\footnotesize,anchor=north west] at ($(#1.E)+(0.05,-0.06)$){E};
+  \node[red,font=\bfseries\footnotesize,anchor=north east] at ($(#1.B)+(-0.05,-0.08)$){B};
+  \node[red,font=\bfseries\footnotesize,anchor=south west] at ($(#1.C)+(0.08,0.06)$){C};
 }
 
 % ground symbol (pic)
@@ -34,66 +40,49 @@
 \begin{document}
 % ONE uniform line weight for every wire and lead
 \begin{circuitikz}[american, line width=1.1pt]
-  \ctikzset{tripoles/thickness=1, bipoles/thickness=1, logic ports/thickness=1}
+  \ctikzset{tripoles/thickness=1, bipoles/thickness=1}
 
   % ---------- supply rail (+5 V) ----------
-  \draw (-4,9.5) -- (17,9.5);
-  \node[anchor=south] at (6.5,9.55) {\textbf{$V_{CC}=+5\,\mathrm{V}$}};
+  \draw (-5.5,9.6) -- (16.5,9.6);
+  \node[anchor=south] at (5.5,9.65) {\textbf{$V_{CC}=+5\,\mathrm{V}$}};
 
-  % ---------- transistors (Q2 above Q3 = totem pole; Q1 = inverter, far left) ----------
-  \node[npn] (q1) at (2,4.5)  {};
-  \node[npn] (q2) at (11,6.6) {};
-  \node[npn] (q3) at (11,1.6) {};
-  \pinlabels{q1}\pinlabels{q2}\pinlabels{q3}
-  \node[font=\footnotesize,anchor=west,align=left]   at (2.8,3.9)   {Q1\\2N3904};
-  \node[font=\footnotesize,anchor=west,align=left]   at (12.0,6.6)  {Q2\\2N3904};
-  \node[font=\footnotesize,anchor=north,align=center] at (11,-0.55) {Q3\\2N3904};
+  % ---------- transistors (PNP on top to +5 V, NPN on bottom to GND) ----------
+  \node[pnp] (qp) at (10,6.9) {};   % 2N3906 (pull-up): default = E top, C bottom
+  \node[npn]            (qn) at (10,2.5) {};   % 2N3904 (pull-down)
+  \pinlabelsP{qp}\pinlabelsN{qn}
+  \node[font=\footnotesize,align=left,anchor=west] at (11.1,6.9) {Q2\\2N3906\\(PNP)};
+  \node[font=\footnotesize,align=left,anchor=west] at (11.1,2.5) {Q1\\2N3904\\(NPN)};
 
-  % =========================================================
-  %  INPUT A  (left):  R_B1 -> Q1 base, bottom bus -> R_B2 -> Q3 base, input LED
-  % =========================================================
-  \draw (-4,4.5) node[ocirc]{} node[left]{Input $A$} -- (-3.2,4.5);
-  \fill (-3.2,4.5) circle (1.7pt);
-  \draw (-3.2,4.5) to[R, l={$R_{B1}=10\,\mathrm{k}\Omega$}] (q1.B);
-  % A vertical down to the fan point
-  \draw (-3.2,4.5) -- (-3.2,0.4);
-  \fill (-3.2,0.4) circle (1.7pt);
-  % input LED branch:  A -> R_in -> LED -> GND
-  \draw (-3.2,0.4) to[R, l_={$R_{in}=470\,\Omega$}] (-3.2,-1.0)
-        to[leD, l_={LED$_{\mathrm{in}}$}] (-3.2,-2.2) -- (-3.2,-2.25) pic{gnd};
-  % bottom bus -> R_B2 -> Q3 base
-  \draw (-3.2,0.4) -- (7.0,0.4) -- (7.0,1.6) to[R, l={$R_{B2}=10\,\mathrm{k}\Omega$}] (q3.B);
+  % PNP emitter -> +5 V ;  NPN emitter -> GND
+  \draw (qp.E) -- (10,9.6);  \fill (10,9.6) circle (1.7pt);
+  \draw (qn.E) -- (10,0.9) pic{gnd};
 
-  % =========================================================
-  %  Q1 inverter:  emitter -> GND, collector = A-bar with pull-up R_C1
-  % =========================================================
-  \draw (q1.E) -- (2,3.3) pic{gnd};
-  \draw (q1.C) -- (2,6.6) coordinate (Abar);
-  \fill (Abar) circle (1.7pt);
-  \draw (Abar) to[R, l_={$R_{C1}=1\,\mathrm{k}\Omega$}] (2,9.5);
-  \fill (2,9.5) circle (1.7pt);
-  % A-bar bus across to Q2 base
-  \draw (Abar) -- (q2.B);
-  \node[anchor=south,font=\footnotesize] at (6.4,6.65) {$\overline{A}$ node};
-
-  % =========================================================
-  %  Push-pull output:  Q2 (top) sources, Q3 (bottom) sinks; node between them
-  % =========================================================
-  % Q2 collector straight to +5 V (NO resistor on the output)
-  \draw (q2.C) -- (11,9.5);
-  \fill (11,9.5) circle (1.7pt);
-  % output node between Q2 emitter and Q3 collector
-  \draw (q2.E) -- (11,4.1) coordinate (OUT);
-  \draw (q3.C) -- (OUT);
+  % ---------- output node (the two collectors meet) ----------
+  \draw (qp.C) -- (10,4.7) coordinate (OUT);
+  \draw (qn.C) -- (OUT);
   \fill (OUT) circle (1.7pt);
-  % Q3 emitter to GND
-  \draw (q3.E) -- (11,0.4) pic{gnd};
-  % output wire to the right
-  \draw (OUT) -- (16.2,4.1) node[ocirc]{} node[right]{Output $Y=\overline{A}$};
-  % output LED branch (well clear of Q3):  OUT -> R_out -> LED -> GND
-  \fill (14.4,4.1) circle (1.7pt);
-  \draw (14.4,4.1) to[R, l_={$R_{out}=470\,\Omega$}] (14.4,2.2)
-        to[leD, l_={LED$_{\mathrm{out}}$}] (14.4,1.0) -- (14.4,0.95) pic{gnd};
+  \draw (OUT) -- (15.8,4.7) node[ocirc]{} node[right]{Output $Y=\overline{A}$};
+
+  % ---------- input bus (far left) ----------
+  \coordinate (IN) at (-3.8,4.7);
+  \draw (-5.5,4.7) node[ocirc]{} node[left]{Input $A$} -- (IN);
+  \fill (IN) circle (1.7pt);
+  % vertical input bus
+  \draw (-3.8,6.9) -- (-3.8,0.3);
+  \fill (-3.8,6.9) circle (1.7pt);
+  \fill (-3.8,2.5) circle (1.7pt);
+  % R_B2 : input -> PNP base
+  \draw (-3.8,6.9) -- (3.0,6.9) to[R, l={$R_{B2}=10\,\mathrm{k}\Omega$}] (qp.B);
+  % R_B1 : input -> NPN base
+  \draw (-3.8,2.5) -- (3.0,2.5) to[R, l={$R_{B1}=10\,\mathrm{k}\Omega$}] (qn.B);
+  % input indicator LED : input -> R_in -> LED -> GND
+  \draw (-3.8,0.3) to[R, l={$R_{in}=220\,\Omega$}] (-3.8,-1.1)
+        to[leD, l={LED$_{\mathrm{in}}$}] (-3.8,-2.3) -- (-3.8,-2.35) pic{gnd};
+
+  % ---------- output indicator LED : output -> R_out -> LED -> GND ----------
+  \fill (13.2,4.7) circle (1.7pt);
+  \draw (13.2,4.7) to[R, l={$R_{out}=220\,\Omega$}] (13.2,2.8)
+        to[leD, l={LED$_{\mathrm{out}}$}] (13.2,1.6) -- (13.2,1.55) pic{gnd};
 
 \end{circuitikz}
 \end{document}
