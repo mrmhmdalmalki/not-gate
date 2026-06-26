@@ -15,17 +15,17 @@
 \usepackage{amsmath}
 \usetikzlibrary{calc}
 
-% red pin labels for the NPN (C top, B left, E bottom)
+% red pin labels for the NPN (C top, B left, E bottom) - pushed clear of the wires
 \newcommand{\pinlabelsN}[1]{%
-  \node[red,font=\bfseries\footnotesize,anchor=south west] at ($(#1.C)+(0.05,0.06)$){C};
-  \node[red,font=\bfseries\footnotesize,anchor=south east] at ($(#1.B)+(-0.05,0.08)$){B};
-  \node[red,font=\bfseries\footnotesize,anchor=north west] at ($(#1.E)+(0.08,-0.06)$){E};
+  \node[red,font=\bfseries\footnotesize,anchor=west] at ($(#1.C)+(0.22,0.16)$){C};
+  \node[red,font=\bfseries\footnotesize,anchor=south east] at ($(#1.B)+(-0.08,0.14)$){B};
+  \node[red,font=\bfseries\footnotesize,anchor=west] at ($(#1.E)+(0.22,-0.16)$){E};
 }
-% red pin labels for the PNP (drawn flipped: E top, B left, C bottom)
+% red pin labels for the PNP (E top, B left, C bottom) - pushed clear of the wires
 \newcommand{\pinlabelsP}[1]{%
-  \node[red,font=\bfseries\footnotesize,anchor=north west] at ($(#1.E)+(0.05,-0.06)$){E};
-  \node[red,font=\bfseries\footnotesize,anchor=north east] at ($(#1.B)+(-0.05,-0.08)$){B};
-  \node[red,font=\bfseries\footnotesize,anchor=south west] at ($(#1.C)+(0.08,0.06)$){C};
+  \node[red,font=\bfseries\footnotesize,anchor=west] at ($(#1.E)+(0.22,0.16)$){E};
+  \node[red,font=\bfseries\footnotesize,anchor=north east] at ($(#1.B)+(-0.08,-0.14)$){B};
+  \node[red,font=\bfseries\footnotesize,anchor=west] at ($(#1.C)+(0.22,-0.16)$){C};
 }
 
 % ground symbol (pic)

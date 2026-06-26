@@ -34,9 +34,10 @@
   \draw (\xe,9.55)--(\xe,9.0);
   \draw (\xb,9.55)--(\xb,9.0);
   \draw (\xc,9.55)--(\xc,9.0);
-  \node[red,font=\scriptsize\bfseries,anchor=north] at (\xe,8.92) {E};
-  \node[red,font=\scriptsize\bfseries,anchor=north] at (\xb,8.92) {B};
-  \node[red,font=\scriptsize\bfseries,anchor=north] at (\xc,8.92) {C};
+  % pin labels sit BESIDE each leg (just left of it) so the jumper wires don't cover them
+  \node[red,font=\scriptsize\bfseries,anchor=east] at (\xe-0.16,8.78) {E};
+  \node[red,font=\scriptsize\bfseries,anchor=east] at (\xb-0.16,8.78) {B};
+  \node[red,font=\scriptsize\bfseries,anchor=east] at (\xc-0.16,8.78) {C};
 }
 
 \begin{document}
