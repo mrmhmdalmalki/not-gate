@@ -4,7 +4,7 @@
 \usepackage{circuitikz}
 \begin{document}
 \begin{circuitikz}[line width=1.1pt, scale=1.4, transform shape]
-  \ctikzset{tripoles/thickness=1, bipoles/thickness=1, logic ports/thickness=1.1}
+  \ctikzset{tripoles/thickness=1, bipoles/thickness=1, logic ports/thickness=1}
   \node[not port] (g) {};
   \draw (g.in)  -- ++(-1,0) node[ocirc]{} node[left]{Input $A$};
   \draw (g.out) -- ++(1,0)  node[ocirc]{} node[right]{Output $Y=\overline{A}$};
